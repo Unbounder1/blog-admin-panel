@@ -1,0 +1,7 @@
+minio
+python-dotenv
+pyyaml
+Jinja2
+Markdown
+dotmap
+psycopg2

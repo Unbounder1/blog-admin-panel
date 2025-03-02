@@ -1,5 +1,5 @@
-created_at: 2025-02-09 23:10:37.938033+00:00
-id: 3
+created_at: 
+id: 
 images:
   raw_circuit_diagram: documentations1.png
   ml_circuit_diagram: documentations2.png
@@ -13,7 +13,7 @@ tags:
 - Personal Project
 thumbnail_image: image1.png
 title: Circuit To LTspice Project
-updated_at: 2025-02-09 23:10:37.937927+00:00
+updated_at: 
 variables:
   var1: null
   var2: null
