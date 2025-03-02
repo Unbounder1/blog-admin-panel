@@ -24,6 +24,20 @@ spec:
         GITHUB_REPO  = "https://github.com/Unbounder1/blog-admin-panel"
         CLONE_DIR    = "/home/jenkins/agent/workspace/blog-admin-panel"
         POSTGRES_URL = ""
+        MINIO_HOST = "localhost"
+        MINIO_PORT = "9000"
+        MINIO_USER = "minioadmin"
+        MINIO_PASS = "minioadmin"
+        MINIO_SECURE = "false"
+        POSTGRES_HOST = "blog-prod-database-rw.cnpg-system.svc.cluster.local"
+        POSTGRES_PORT = "5432"
+        POSTGRES_USER = "bloguser"
+        POSTGRES_PASSWORD = "mypassword"
+        POSTGRES_NAME = "blogdigestdb"
+        POSTGRES_SSLMODE = "disable"
+        PORT = "8080"
+        BACKEND_HOST = "localhost"
+        BACKEND_PORT = "8080"
     }
 
     stages {
@@ -61,33 +75,6 @@ spec:
             }
         }
 
-        stage('Create .env File') {
-            steps {
-                container('python') {
-                    script {
-                        sh """
-                          echo 'Creating .env file...'
-                          cat <<EOF > $CLONE_DIR/.env
-MINIO_HOST=localhost
-MINIO_PORT=9000
-MINIO_USER=minioadmin
-MINIO_PASS=minioadmin
-MINIO_SECURE=false
-POSTGRES_HOST=blog-prod-database-rw.cnpg-system.svc.cluster.local
-POSTGRES_PORT=5432
-POSTGRES_USER=bloguser
-POSTGRES_PASSWORD=mypassword
-POSTGRES_NAME=blogdigestdb
-POSTGRES_SSLMODE=disable
-PORT=8080
-BACKEND_HOST=localhost
-BACKEND_PORT=8080
-EOF
-                        """
-                    }
-                }
-            }
-        }
 
         stage('Run main.py') {
             steps {
