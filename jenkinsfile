@@ -32,7 +32,7 @@ spec:
         POSTGRES_HOST = "blog-prod-database-rw.cnpg-system.svc.cluster.local"
         POSTGRES_PORT = "5432"
         POSTGRES_USER = "bloguser"
-        POSTGRES_PASSWORD = "mypassword"
+        POSTGRES_PASSWORD = "password"
         POSTGRES_NAME = "blogdigestdb"
         POSTGRES_SSLMODE = "disable"
         PORT = "8080"
