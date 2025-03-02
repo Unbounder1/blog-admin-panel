@@ -44,6 +44,9 @@ def image_process(image_link, alt_text="", image_size="med"):
     
     return outStr
 
+def html_process(info):
+    return info
+
 def chapter(id, title):
     temp_dict = {}
     temp_dict["number"] = id
@@ -85,6 +88,7 @@ def html_convert(dir, metadata, blog_id):
     env.filters["image_process"] = image_process
     env.filters["chapter"] = chapter
     env.filters["subchapter"] = subchapter
+    env.filters["rawhtml"] = html_process
 
     template = env.from_string(html_content)
     process_one = template.render(metadata=metadata)

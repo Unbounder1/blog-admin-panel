@@ -1,0 +1,124 @@
+pipeline {
+    agent {
+        kubernetes {
+            label 'astro-blog-apply-blogs'
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    jenkins: astro-blog-dep
+spec:
+  containers:
+
+    - name: python
+      image: python:3.9
+      command:
+      - cat
+      tty: true
+"""
+        }
+    }
+
+    environment {
+        GITHUB_REPO  = "https://github.com/Unbounder1/blog-admin-panel"
+        CLONE_DIR    = "/home/jenkins/agent/workspace/blog-admin-panel"
+        POSTGRES_URL = ""
+    }
+
+    stages {
+        stage('Install Git (if needed)') {
+            steps {
+                container('python') {
+                    script {
+                        sh """
+                          echo 'Checking if git is installed...'
+                          if ! command -v git &> /dev/null
+                          then
+                            echo 'Installing git...'
+                            apt-get update && apt-get install -y git
+                          else
+                            echo 'Git is already installed.'
+                          fi
+                        """
+
+                        checkout scm
+                    }
+                }
+            }
+        }
+
+        stage('Clone Repository') {
+            steps {
+                container('python') {
+                    script {
+                        sh """
+                          echo 'Cloning repository...'
+                          git clone $GITHUB_REPO $CLONE_DIR || (cd $CLONE_DIR && git pull origin main)
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Create .env File') {
+            steps {
+                container('python') {
+                    script {
+                        sh """
+                          echo 'Creating .env file...'
+                          cat <<EOF > $CLONE_DIR/.env
+MINIO_HOST=localhost
+MINIO_PORT=9000
+MINIO_USER=minioadmin
+MINIO_PASS=minioadmin
+MINIO_SECURE=false
+POSTGRES_HOST=blog-prod-database-rw.cnpg-system.svc.cluster.local
+POSTGRES_PORT=5432
+POSTGRES_USER=bloguser
+POSTGRES_PASSWORD=mypassword
+POSTGRES_NAME=blogdigestdb
+POSTGRES_SSLMODE=disable
+PORT=8080
+BACKEND_HOST=localhost
+BACKEND_PORT=8080
+EOF
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Run main.py') {
+            steps {
+                container('python') {
+                    script {
+                        sh """
+                          echo 'Installing dependencies...'
+                          pip install -r $CLONE_DIR/requirements.txt || true
+                          echo 'Running main.py...'
+                          python $CLONE_DIR/main.py
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Commit and Push Changes') {
+            steps {
+                container('python') {
+                    script {
+                        sh """
+                          cd $CLONE_DIR
+                          echo 'Checking for changes...'
+                          git status
+                          git add .env || true
+                          git commit -m "Update .env file via Jenkins" || true
+                          git push origin main || true
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
