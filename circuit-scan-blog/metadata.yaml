@@ -1,0 +1,20 @@
+created_at: 2025-02-09 23:10:37.938033+00:00
+id: 3
+images:
+  raw_circuit_diagram: documentations1.png
+  ml_circuit_diagram: documentations2.png
+  bounding_circuit_diagram: documentations3.png
+  list_circuit_diagram: documentations4.png
+  spice_circuit_diagram: documentations5.png
+summary: In this project I created a functional program that converts handrawn or printed circuit diagrams into an LTSpice simulation for simulation and solving homework problems
+tags:
+- Machine Learning
+- Python
+- Personal Project
+thumbnail_image: image1.png
+title: Circuit To LTspice Project
+updated_at: 2025-02-09 23:10:37.937927+00:00
+variables:
+  var1: null
+  var2: null
+delete: false
