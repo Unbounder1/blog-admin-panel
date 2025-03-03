@@ -1,5 +1,5 @@
 created_at: 
-id: 
+id: 1
 images:
   raw_circuit_diagram: documentations1.png
   ml_circuit_diagram: documentations2.png
@@ -17,4 +17,4 @@ updated_at:
 variables:
   var1: null
   var2: null
-delete: true
+delete: false
