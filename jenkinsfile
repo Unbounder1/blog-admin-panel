@@ -24,7 +24,7 @@ spec:
         GITHUB_REPO  = "https://github.com/Unbounder1/blog-admin-panel"
         CLONE_DIR    = "/home/jenkins/agent/workspace/blog-admin-panel"
         POSTGRES_URL = ""
-        MINIO_HOST = "localhost"
+        MINIO_HOST = "minio-svc.blog-prod.svc.cluster.local"
         MINIO_PORT = "9000"
         MINIO_USER = "minioadmin"
         MINIO_PASS = "minioadmin"

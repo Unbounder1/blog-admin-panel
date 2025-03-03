@@ -35,13 +35,9 @@ For context, OpenCV processes images as a numpy 2d array of pixel color values. 
 {{ metadata.images.bounding_circuit_diagram | image_process("", "med") }}
 To determine if the pixel is inside another bounding box, which would essentially mean that one component is connected to the other, instead of comparing the pixel with every single box, I created a KDtree (think binary search but for multiple dimensions) of center points of the bounding boxes, and only checked each pixel against each bounding box. Finally, if the pixel in BFS was in another bounding box, it'd not continue and add a connection in the adjacency list of one node to the other.
 
-{% set html_info %}
-t
-h
-i
-s
-{% endset %}
+{{ "2.2" | subchapter("Matching Labels To Components") }}
 
+WIP
 
-{{ "title" | rawhtml(html_info) }}
+{{ "2.3" | subchapter("Converting To LTSpice") }}
 
