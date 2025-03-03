@@ -240,7 +240,7 @@ def process_thumbnail(metadata):
         dotenv.load_dotenv()
         minio_host = os.getenv('BACKEND_HOST', 'localhost')
         minio_port = os.getenv('BACKEND_PORT', '8080')
-        return f"http://{minio_host}:{minio_port}/image/blog/blog_{metadata.id}/{metadata.thumbnail_image}"
+        return f"/image/blog/blog_{metadata.id}/{metadata.thumbnail_image}"
     else:
         return metadata.thumbnail_image
     
