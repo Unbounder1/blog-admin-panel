@@ -35,7 +35,7 @@ def image_process(image_link, alt_text="", image_size="med"):
     backend_port = "{{ backend_port }}" 
     
     outStr = f'''<Image
-  src="/api/image/blog/blog_{blog_id}/{image_link}"
+  src="/api/image?blogID=blog_{blog_id}&imageName={image_link}/"
   alt="{alt_text}"
   width="{width}"
   format="auto"
@@ -240,7 +240,8 @@ def process_thumbnail(metadata):
         dotenv.load_dotenv()
         minio_host = os.getenv('BACKEND_HOST', 'localhost')
         minio_port = os.getenv('BACKEND_PORT', '8080')
-        return f"/api/image/blog/blog_{metadata.id}/{metadata.thumbnail_image}"
+        
+        return f"/api/image?blogID=blog_{metadata.id}&imageName={metadata.thumbnail_image}"
     else:
         return metadata.thumbnail_image
     
