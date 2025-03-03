@@ -35,7 +35,7 @@ def image_process(image_link, alt_text="", image_size="med"):
     backend_port = "{{ backend_port }}" 
     
     outStr = f'''<Image
-  src="http://{backend_host}:{backend_port}/image/blog/blog_{blog_id}/{image_link}"
+  src="/image/blog/blog_{blog_id}/{image_link}"
   alt="{alt_text}"
   width="{width}"
   format="auto"
