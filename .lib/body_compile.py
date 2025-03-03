@@ -205,24 +205,30 @@ def db_connection():
 
 def delete_db(connection, metadata):
     """
-    Given a connection and metadata with `metadata.id`, deletes existing
-    entries in blogdigest, blog_tags, tags (if orphaned), and blog_body
-    for that specific ID.
+    Deletes entries in blogdigest, blog_tags, tags (if orphaned), and blog_body.
     """
     if not hasattr(metadata, "id") or metadata.id is None:
         raise ValueError("metadata.id is required for deletion.")
+    
     with connection.cursor() as cursor:
         try:
-            cursor.execute("DELETE FROM blogdigest WHERE id = %s;", (metadata.id,))
+            # Delete related blog_tags first (Foreign Key Dependency)
             cursor.execute("DELETE FROM blog_tags WHERE blog_id = %s;", (metadata.id,))
+
+            # Delete orphaned tags (ensure no dependencies remain)
             cursor.execute("""
                 DELETE FROM tags
                 WHERE id NOT IN (SELECT DISTINCT tag_id FROM blog_tags);
             """)
+
+            # Delete blog_body (Foreign Key Dependency)
             cursor.execute("DELETE FROM blog_body WHERE blog_id = %s;", (metadata.id,))
 
+            # Finally, delete from blogdigest
+            cursor.execute("DELETE FROM blogdigest WHERE id = %s;", (metadata.id,))
+
             connection.commit()
-            print("Deleted duplicate db")
+            print(f"Deleted blog entry {metadata.id} successfully.")
 
         except Exception as e:
             connection.rollback()
