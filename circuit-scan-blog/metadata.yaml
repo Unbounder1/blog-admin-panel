@@ -17,4 +17,4 @@ updated_at:
 variables:
   var1: null
   var2: null
-delete: false
+delete: true
