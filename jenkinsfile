@@ -98,9 +98,10 @@ spec:
                         sh """
                           cd $CLONE_DIR
                           echo 'Checking for changes...'
+                          git config --global user.email "ryadon12@gmail.com"
+                          git config --global user.name "unbounder1"
                           git status
-                          git add .env || true
-                          git commit -m "Update .env file via Jenkins" || true
+                          git commit -m "Update DB - JENKINS CI/CD" || true
                           git push origin main || true
                         """
                     }
