@@ -29,10 +29,10 @@ def upload_minio(client, bucket_name, destination_file, source_file, tag):
     if not found:
         client.make_bucket(bucket_name)
     else:
-        print("Bucket already exists")
+        print(f"Bucket already exists: {bucket_name}")
     
     client.fput_object(bucket_name, destination_file, source_file)
-    print("Successfully uploaded")
+    print(f"Successfully uploaded: {bucket_name}, {destination_file}, {source_file}")
 
 def get_assets(dir):
     asset_list = []
