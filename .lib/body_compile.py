@@ -24,11 +24,11 @@ toc_dict = [{}]
 def image_process(image_link, alt_text="", image_size="med"):
     # Define width based on size
     if image_size == "large":
-        width = "100vw"  
+        width = "100%"  
     elif image_size == "med":
-        width = "50vw"
+        width = "50%"
     else:  # "small"
-        width = "25vw"
+        width = "25%"
 
     blog_id = "{{ blog_id }}"
     backend_host = "{{ backend_host }}"
