@@ -2,7 +2,7 @@
 
 {{ "1.1" | subchapter("Preface") }}
 
-I don't really have any noble reason for creating this project I just hate the fact that ltspice (circuit simulation program) that we use for school is so annoying and there are no ways to rebind shortcuts especially on mac, where the function keys require me to awkwardly contort my hands to use the dumb unintuitive default keybinds.
+I dislike the fact that ltspice (circuit simulation program) that we use for school is so annoying and there are no ways to rebind shortcuts especially on mac, where the function keys require me to awkwardly contort my hands to use the dumb unintuitive default keybinds.
  
 {{ "1.2" | subchapter("General Overview") }}
 
@@ -13,7 +13,8 @@ An abstracted overview of how the algorithm works is by first processing the ima
 {{ "2.1" | subchapter("Trained Models Using YOLOv11") }}
 
 Although YOLO is notorious for it's scummy business practices, it has an abstraction that is so simple that even I can use it without learning much. I used this dataset: 
-`Bayer, J. (n.d.). CGHD1152 [Dataset]. Kaggle. Retrieved from https://www.kaggle.com/datasets/johannesbayer/cghd1152`
+
+Bayer, J. (n.d.). CGHD1152 [Dataset]. Kaggle. Retrieved from https://www.kaggle.com/datasets/johannesbayer/cghd1152
 
 I converted the dataset to a YOLO OB format with a simple python script, and then trained it using these parameters (what I found best from my testing):
 - initial learning rate = 0.00406 
@@ -41,3 +42,4 @@ WIP
 
 {{ "2.3" | subchapter("Converting To LTSpice") }}
 
+WIP
