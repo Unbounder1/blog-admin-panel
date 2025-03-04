@@ -26,14 +26,14 @@ Training mostly plataued in improvements at around 500-600 epochs, with it overf
 {{ "2.1" | subchapter("Constructing the Graph") }}
 
 After I found a model that was accurate enough for the continuation of progress, I worked on creating an algorithm that converts this:
-{{ metadata.images.ml_circuit_diagram | image_process("", "med") }}
+{{ metadata.images.ml_circuit_diagram | image_process("", "large") }}
 
 into something that I could process algorithmically:
 
-{{ metadata.images.list_circuit_diagram | image_process("", "med") }}
+{{ metadata.images.list_circuit_diagram | image_process("", "large") }}
 
 For context, OpenCV processes images as a numpy 2d array of pixel color values. Essentially, by converting this into a binary array of 0 or 1 values, where 0 represents some path, and 255 (white) representing a untravelable area, it essentially becomes a simple graphing problem. Therefor, for each node I converted it into a black box ensuring continuity on a single component, and then just perform DFS where I append unvisited pixels to the stack and explore from there. 
-{{ metadata.images.bounding_circuit_diagram | image_process("", "med") }}
+{{ metadata.images.bounding_circuit_diagram | image_process("", "large") }}
 To determine if the pixel is inside another bounding box, which would essentially mean that one component is connected to the other, instead of comparing the pixel with every single box, I created a KDtree (think binary search but for multiple dimensions) of center points of the bounding boxes, and only checked each pixel against each bounding box. Finally, if the pixel in BFS was in another bounding box, it'd not continue and add a connection in the adjacency list of one node to the other.
 
 {{ "2.2" | subchapter("Matching Labels To Components") }}
