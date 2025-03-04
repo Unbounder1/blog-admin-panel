@@ -12,13 +12,14 @@ An abstracted overview of how the algorithm works is by first processing the ima
 
 {{ "2.1" | subchapter("Trained Models Using YOLOv11") }}
 
-Although YOLO is notorious for it's scummy business practices, it has an abstraction that is so simple that even I can use it without learning much. I used this dataset: 
-
-Bayer, J. (n.d.). CGHD1152 [Dataset]. Kaggle. Retrieved from https://www.kaggle.com/datasets/johannesbayer/cghd1152
+Although YOLO is notorious for it's scummy business practices, it has an abstraction that is so simple that even I can use it without learning much.[1]
 
 I converted the dataset to a YOLO OB format with a simple python script, and then trained it using these parameters (what I found best from my testing):
+
 - initial learning rate = 0.00406 
+
 - box = 0.02, dfl = 0.1 -> focus on classification vs having extremely accurate bounding boxes
+
 - cls = 1.0 
 
 Training mostly plataued in improvements at around 500-600 epochs, with it overfitting past that in my experience. 
@@ -38,8 +39,21 @@ To determine if the pixel is inside another bounding box, which would essentiall
 
 {{ "2.2" | subchapter("Matching Labels To Components") }}
 
-WIP
+{{ "2.3" | subchapter("Complex Manhattan Grid Algorithm") }}
 
-{{ "2.3" | subchapter("Converting To LTSpice") }}
+{{ "2.4" | subchapter("Converting To LTSpice") }}
 
-WIP
+I couldn't find documentation for how LTspice formats its .asc files, so I just did some experimentation myself. 
+
+Wires are in the format [WIRE 0 158 0 273, WIRE 0 158 0 158] where it represents the start and the end of the wire. To handle the parsing for wires, by assuming wires are always directly parallel to another node, it only draws wires up/down in the direction of the connected nodes. 
+
+Components also are weird in the sense that their coordinates are not determined by the center but one of the corners, and that means that each direction of rotation will have its own offset. Therefor, I had to manually apply a transform for each component's directions.
+
+To ensure small imperfections in the code don't cause disconnectivity, I also have a function to snap all components to a set grid size of 16 pixels, rounding to +- 16 pixels.
+
+{{ "3" | chapter("Demo") }}
+
+
+{{ "4" | chapter("References") }}
+
+Bayer, J. (n.d.). CGHD1152 [Dataset]. Kaggle. Retrieved from https://www.kaggle.com/datasets/johannesbayer/cghd1152
