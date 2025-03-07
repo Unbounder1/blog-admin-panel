@@ -39,6 +39,8 @@ To determine if the pixel is inside another bounding box, which would essentiall
 
 {{ "2.2" | subchapter("Matching Labels To Components") }}
 
+For matching labels to components a simple solution would just be a greedy distance based algorithm that determines the associated labels depending on a set distance and using simple regex to distinguish between labels that start with letters or values that start with numbers.
+
 {{ "2.3" | subchapter("Complex Manhattan Grid Algorithm") }}
 
 {{ "2.4" | subchapter("Converting To LTSpice") }}
