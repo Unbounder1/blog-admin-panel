@@ -17,6 +17,8 @@ def iframe_process(iframe_link, title=""):
     outStr = f'''<iframe
     src = '{iframe_link}'
     title="{title}"
+    style="width: 100%; height: 100%; border: none;"
+    loading="lazy"
     />'''
 
     return outStr
