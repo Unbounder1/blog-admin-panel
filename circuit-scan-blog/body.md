@@ -39,7 +39,9 @@ To determine if the pixel is inside another bounding box, which would essentiall
 
 {{ "2.2" | subchapter("Matching Labels To Components") }}
 
-For matching labels to components a simple solution would just be a greedy distance based algorithm that determines the associated labels depending on a set distance and using simple regex to distinguish between labels that start with letters or values that start with numbers.
+For matching labels to components a simple solution would just be a greedy distance based algorithm that determines the associated labels depending on a set distance and using simple regex to distinguish between labels that start with letters or values that start with numbers. This allows a simpler faster algorithm but for components that are near other components with labels this doesn't suffice. However, this functionality is left in for specific use cases.
+
+A better solution to this problem would be some kind of way to ensure that each text label is only assigned to the component that is not only the closest but the only associated label. Another proposed solution could be to assign text labels to components that way we know for sure each text label is at max assigned to only 1 component per label, however this increases
 
 {{ "2.3" | subchapter("Complex Manhattan Grid Algorithm") }}
 
@@ -51,10 +53,15 @@ Wires are in the format [WIRE 0 158 0 273, WIRE 0 158 0 158] where it represents
 
 Components also are weird in the sense that their coordinates are not determined by the center but one of the corners, and that means that each direction of rotation will have its own offset. Therefor, I had to manually apply a transform for each component's directions.
 
+On the topic of rotation, I handle it two ways. Some components are not extremely rotation dependent like resistors where all that matters is whether or not its horizontal or vertical. However, for things such as a voltage source, up and down are both distinguishable so therefor another method is used. 
+
+For the simple horizontal/vertical calculation, all that I do is take the nearest two components in the adjacency list and based on the offset determine R0 or R90
+
 To ensure small imperfections in the code don't cause disconnectivity, I also have a function to snap all components to a set grid size of 16 pixels, rounding to +- 16 pixels.
 
 {{ "3" | chapter("Demo") }}
 
+{ "/demo/circuitscan/" | iframeprocess("Circuit Scan Demo") }
 
 {{ "4" | chapter("References") }}
 
