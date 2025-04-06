@@ -61,7 +61,7 @@ To ensure small imperfections in the code don't cause disconnectivity, I also ha
 
 {{ "3" | chapter("Demo") }}
 
-{ "/demo/circuitscan/" | iframeprocess("Circuit Scan Demo") }
+{ "/demo/circuitscan/" | iframe_process("Circuit Scan Demo") }
 
 {{ "4" | chapter("References") }}
 
