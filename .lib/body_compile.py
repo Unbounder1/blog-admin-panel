@@ -13,11 +13,11 @@ import unicodedata
 
 toc_dict = [{}]
 
-def iframe_process(iframe_link, title=""):
+def iframe_process(iframe_link, title="", min_height="0"):
     outStr = f'''<iframe
     src = '{iframe_link}'
     title="{title}"
-    style="width: 100%; height: 100%; border: none;"
+    style="width: 100%; min-height: {min_height}px; border: none;"
     loading="lazy"
     />'''
 
