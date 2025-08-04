@@ -1,0 +1,17 @@
+created_at: 
+id: 
+images:
+  image1: image.png
+summary: In my summer 2025 internship at IBM, I took upon me to create a data aggregation tool for our product, replacing a "temporary" CLI tool that was due for replacement
+tags:
+- React
+- Javascript
+- REST
+- CI/CD
+thumbnail_image: image1.png
+title: "IBM: Data aggregation tool, SRE-Hub"
+updated_at: 
+variables:
+  var1: null
+  var2: null
+delete: true

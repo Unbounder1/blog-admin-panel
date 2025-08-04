@@ -13,14 +13,20 @@ import unicodedata
 
 toc_dict = [{}]
 
-#FIX ASTRO NOT UPDATINg STATIC LINKS (maybe)
-#--------------------------------------
-#--------------------------------------
-#--------------------------------------
-#--------------------------------------
-#--------------------------------------
-#--------------------------------------
-#--------------------------------------
+def iframe_process(iframe_link, title="", min_height="0"):
+    outStr = f'''<iframe
+    src = '{iframe_link}'
+    title="{title}"
+    style="width: 100%; min-height: {min_height}px; border: none;"
+    loading="lazy"
+    />'''
+
+    return outStr
+    
+    # <iframe
+    #         src={href}
+    #         title="Blog Post Content"
+    #       />
 def image_process(image_link, alt_text="", image_size="med"):
     # Define width based on size
     if image_size == "large":
@@ -85,6 +91,7 @@ def html_convert(dir, metadata, blog_id):
         html_content = markdown.markdown(f.read())
 
     env = Environment()
+    env.filters["iframe_process"] = iframe_process
     env.filters["image_process"] = image_process
     env.filters["chapter"] = chapter
     env.filters["subchapter"] = subchapter
