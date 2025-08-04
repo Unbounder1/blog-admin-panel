@@ -45,6 +45,8 @@ A better solution to this problem would be some kind of way to ensure that each 
 
 {{ "2.3" | subchapter("Complex Manhattan Grid Algorithm") }}
 
+This part is part I have not solved yet. The current method is rounding components to grid-like points, of 128 pixels. This rounds the error that happens due to lines not being perfectly vertical or horizontal. However, this rounding can cause components that are close to end up in the same point because of the rounding, and I have not thought of a good solution to this yet. Something like how CAD software works where component wire lengths are somewhat variable can be possible, or some kind of algorithm to map the objects to a grid as a hashmap ensuring that there can only be one component per grid, but that introduces the problem of shifting all other components when that happens. 
+
 {{ "2.4" | subchapter("Converting To LTSpice") }}
 
 I couldn't find documentation for how LTspice formats its .asc files, so I just did some experimentation myself. 
