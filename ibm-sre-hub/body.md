@@ -25,10 +25,59 @@ The main customer (will refer to as tenant from now on) info is served as a list
 
 Once I had that figured out, I then had a problem of dealing with the authentication methods. For each environment, there is a seperate Oauth server that is used, so I created a static yaml file that stored the data per-env as a dictionary of dict\[env\]. Then, since the logic for combining the data was run in the astro backend node server (not client side), I could just process that yaml directly into an object and access it there. Now was the part of dealing with the authorization. It used a device-code Oauth 2.0 method, but I found the IETF standard documentation to be extremely easy to read and understand ((here)[https://datatracker.ietf.org/doc/html/rfc8628]). 
 
-{{ "2.1" | subchapter("OAuth 2.0 Device Authorization Grant Implementation") }}
+{{ "2.2" | subchapter("OAuth 2.0 Device Authorization Grant Implementation") }}
+
+OAuth 2.0 Device Authorization Grant (RFC 8628) was the backbone of authentication for this tool. It was selected due to ISV's support for this protocol and its suitability for headless devices or browser-based flows without direct access to user credentials.
+
+The flow consists of several steps and maps directly to the code implementation:
+
+**Step A & B – Requesting device and user code**
+
+The frontend sends a request to the `/api/tenant_authLink.ts` endpoint. This hits ISV with the client ID (per environment), returning a `device_code`, `user_code`, and a `verification_uri_complete`. This is rendered as a toast with a link for the user to visit and complete the authentication.
+
+**Step C & D – User completes authorization**
+
+The user opens the provided link, logs in with their IBM ID, and is added to any ISV groups as per their permissions. This happens outside the site, and the frontend does not poll or track this state.
+
+**Step E – Polling for token**
+
+The backend starts polling ISV with the device code using `/api/tenant_authCookie.ts`. This polling lasts 60 iterations, with a short delay between each. Once the user completes the login, ISV returns an access token (`defenderToken`), which is stored in an `HttpOnly` cookie scoped to the environment.
+
+**Step F – Token usage**
+
+After token acquisition, the backend fetches protected endpoints using the bearer token. If the request succeeds, the session is stored. If the token is expired or invalid (e.g., 401), the backend deletes the cookie and restarts the flow.
+
+**Security consideration**
+
+Since the polling and token exchange are done entirely on the backend, there's no risk of exposing tokens client-side. The `defenderToken` is never visible in JS and is only attached to internal fetches from backend routes.
+
+**Edge cases handled**
+
+- Users not added to ISV groups return 500s — retried with optional tenant override.
+- Tokens expire — backend clears cookie and retries.
+- Multiple environments — each has its own isolated token/cookie based on `envKey`.
+- Missing or malformed `device_code` — handled with schema validation and hard failure.
 
 <insert image>
 
+{{ "2.3" | subchapter("Session Handling and Caching") }}
+
+Since the application never uses a database, all session information is ephemeral and coupled to the authentication cookie (`defenderCookie_<env>`). This cookie is set only on successful token retrieval and cleared aggressively when stale. Every fetch request either continues using the session or re-triggers a new device flow.
+
+To avoid hammering endpoints and reauthenticating unnecessarily, tenant data is encrypted and cached in local storage using a per-environment key. This allows fast refresh and reduces load on microservices while maintaining security boundaries.
+
+{{ "2.4" | subchapter("Data Normalization and Display") }}
+
+Displaying all tenant data at once meant unifying formats across disparate APIs. Each endpoint had to be massaged into a standard `Tenant` shape before display. This included:
+
+- Normalizing field names
+- Converting nested and per-tenant responses into flat records
+- Appending missing metadata from fallback endpoints
+- Deduplicating or merging partial records
+
+The result was a dense, spreadsheet-like table that unified operational, metadata, and cluster information into one screen with filters, sorting, and search. Most importantly, it was reactive to environment and tenant scope. However...
+
+{{ "2.4" | subchapter("Issue with 1 endpoint: License Information") }}
 
 
 {{ metadata.images.image1 | image_process("alt text", "med") }}
