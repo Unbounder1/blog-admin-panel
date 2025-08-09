@@ -79,6 +79,7 @@ The result was a dense, spreadsheet-like table that unified operational, metadat
 
 {{ "2.4" | subchapter("Issue with 1 endpoint: License Information") }}
 
+One big issue was one of our endpoints was queried with the request header ?=tenantId, and each request required both switching the user group to a different group (the one that had access to the tenant) and then querying the endpoint. Because of this, it took anywhere from 3-30 seconds per request, with no way of parellizing the queries. My solution was to decouple this datapoint from the rest of them, loading it on request rather than during the main reload request. It also encrypts the data at rest with sha256 before putting it in the localstorage, but when loading it it grabs these datapoints seperately. I also implemented a progress bar to go along with this, giving the option to load all the data once as this data was something that doesn't change frequently. 
 
 {{ metadata.images.image1 | image_process("alt text", "med") }}
 
